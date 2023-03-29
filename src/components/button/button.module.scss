@@ -1,0 +1,29 @@
+@import '@/vars.module.scss';
+
+.button {
+  height: auto;
+  min-height: 40px;
+  min-width: 40px;
+
+  color: $--font-color-primary;
+  background-color: $--card-bg;
+  border: none;
+  border-radius: 8px;
+  outline: none;
+
+  &:hover {
+    background-color: $--card-bg-hover;
+    cursor: pointer;
+  }
+
+  &:active {
+    background-color: $--card-bg-active;
+  }
+
+  &:disabled {
+    background-color: transparent;
+    box-shadow: 0 0 0 2px $--card-bg inset;
+    color: $--font-color-secondary;
+    cursor: initial;
+  }
+}

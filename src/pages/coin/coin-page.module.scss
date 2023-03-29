@@ -1,0 +1,67 @@
+@import '@/vars.module.scss';
+
+.page {
+  padding: 16px;
+  width: auto;
+
+  display: flex;
+  flex-direction: column;
+  row-gap: 16px;
+
+  background-color: $--card-bg;
+  border: none;
+  border-radius: 8px;
+
+  &__title {
+    margin: 0;
+
+    font-size: 24px;
+    line-height: 40px;
+    font-weight: 500;
+  }
+
+  &__diagram {
+    width: inherit;
+    height: 300px;
+
+    background-color: $--card-bg;
+    border: none;
+    border-radius: 8px;
+  }
+}
+
+.form {
+  width: 100%;
+  display: flex;
+  column-gap: 8px;
+}
+
+.coin {
+
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+
+  &__prop {
+    display: flex;
+    align-items: baseline;
+    flex-direction: column;
+
+    font-size: 14px;
+    color: $--font-color-secondary;
+  }
+
+  &__value {
+    font-size: 18px;
+    font-weight: 500;
+    color: $--font-color-primary;
+  }
+}
+
+@media (max-width:768px) {
+  .page {
+    &__diagram {
+      height: 180px;
+    }
+  }
+}

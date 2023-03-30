@@ -5,6 +5,7 @@ import classNames from 'classnames';
 import { Button } from '@/components/button';
 import { Modal } from '@/components/modal';
 
+import { formatPercent, formatUsd } from '@/helpers/number';
 import * as coincapServices from '@/services/coincap.service';
 
 import styles from './main-page.module.scss';
@@ -57,42 +58,46 @@ export function MainPage() {
                 <div className={classNames(styles.coin__price, styles.coin__prop) }>
                   Price:
                   <span className={styles.coin__value}>
-                    ${coin.priceUsd}
+                    ${formatUsd(coin.priceUsd)}
                   </span>
                 </div>
 
                 <div className={classNames(styles.coin__cap, styles.coin__prop) }>
                   Market Cap:
                   <span className={ styles.coin__value}>
-                    ${coin.marketCapUsd}
+                    ${formatUsd(coin.marketCapUsd)}
                   </span>
                 </div>
 
                 <div className={classNames(styles.coin__vwap, styles.coin__prop) }>
                   VWAP (24Hr):
                   <span className={ styles.coin__value}>
-                    ${coin.vwap24Hr}
+                    ${formatUsd(coin.vwap24Hr)}
                   </span>
                 </div>
 
                 <div className={classNames(styles.coin__supply, styles.coin__prop) }>
                   Supply:
                   <span className={ styles.coin__value}>
-                    {coin.supply}
+                    {formatUsd(coin.supply)}
                   </span>
                 </div>
 
                 <div className={classNames(styles.coin__volume, styles.coin__prop) }>
                   Volume (24Hr):
                   <span className={ styles.coin__value}>
-                    ${coin.volumeUsd24Hr}
+                    ${formatUsd(coin.volumeUsd24Hr)}
                   </span>
                 </div>
 
                 <div className={classNames(styles.coin__change, styles.coin__prop) }>
                   Change (24Hr):
-                  <span className={ styles.coin__value}>
-                    {coin.changePercent24Hr}%
+                  <span className={classNames({
+                    [styles.coin__value]: true,
+                    [styles.coin__value_positive]: +coin.changePercent24Hr > 0,
+                    [styles.coin__value_negative]: +coin.changePercent24Hr < 0
+                  })}>
+                    {formatPercent(coin.changePercent24Hr)}%
                   </span>
                 </div>
               </Link>

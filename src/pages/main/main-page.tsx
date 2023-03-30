@@ -1,16 +1,18 @@
 import { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useSearchParams } from 'react-router-dom';
 import classNames from 'classnames';
 
 import { Button } from '@/components/button';
 import { Modal } from '@/components/modal';
 
-import { formatPercent, formatUsd } from '@/helpers/number';
+import { formatPercent, formatCurrency } from '@/helpers/number';
 import * as coincapServices from '@/services/coincap.service';
 
 import styles from './main-page.module.scss';
 
 export function MainPage() {
+  let [searchParams, setSearchParams] = useSearchParams();
+  
   const emptyCoinData:coincapServices.CoinsListPropsType = {
     data: [],
     timestamp: 0
@@ -20,8 +22,15 @@ export function MainPage() {
   const [page, setPage] = useState(1);
 
   useEffect(() => {
+    let currentPage = searchParams.get('page');
+    if (currentPage === null|| isNaN(+currentPage)|| +currentPage <= 1) {
+      searchParams.delete('page');
+      setSearchParams(searchParams);
+      currentPage = '1';
+    }
+
     const coinsPerPage = 10;
-    const coinsOffset = coinsPerPage * (page - 1);
+    const coinsOffset = coinsPerPage * (+currentPage - 1);
 
     async function getCoinPerPage(perPage:number, offset:number) {
       try {
@@ -34,7 +43,8 @@ export function MainPage() {
     }
 
     getCoinPerPage(coinsPerPage, coinsOffset);
-  }, [page])
+    setPage(+currentPage);
+  }, [searchParams])
 
   return(
       <div className={styles.list}>
@@ -58,35 +68,35 @@ export function MainPage() {
                 <div className={classNames(styles.coin__price, styles.coin__prop) }>
                   Price:
                   <span className={styles.coin__value}>
-                    ${formatUsd(coin.priceUsd)}
+                    {formatCurrency(coin.priceUsd, '$')}
                   </span>
                 </div>
 
                 <div className={classNames(styles.coin__cap, styles.coin__prop) }>
                   Market Cap:
                   <span className={ styles.coin__value}>
-                    ${formatUsd(coin.marketCapUsd)}
+                    {formatCurrency(coin.marketCapUsd, '$')}
                   </span>
                 </div>
 
                 <div className={classNames(styles.coin__vwap, styles.coin__prop) }>
                   VWAP (24Hr):
                   <span className={ styles.coin__value}>
-                    ${formatUsd(coin.vwap24Hr)}
+                    {formatCurrency(coin.vwap24Hr, '$')}
                   </span>
                 </div>
 
                 <div className={classNames(styles.coin__supply, styles.coin__prop) }>
                   Supply:
                   <span className={ styles.coin__value}>
-                    {formatUsd(coin.supply)}
+                    {formatCurrency(coin.supply, '')}
                   </span>
                 </div>
 
                 <div className={classNames(styles.coin__volume, styles.coin__prop) }>
                   Volume (24Hr):
                   <span className={ styles.coin__value}>
-                    ${formatUsd(coin.volumeUsd24Hr)}
+                    {formatCurrency(coin.volumeUsd24Hr, '$')}
                   </span>
                 </div>
 
@@ -97,7 +107,7 @@ export function MainPage() {
                     [styles.coin__value_positive]: +coin.changePercent24Hr > 0,
                     [styles.coin__value_negative]: +coin.changePercent24Hr < 0
                   })}>
-                    {formatPercent(coin.changePercent24Hr)}%
+                    {formatPercent(coin.changePercent24Hr)}
                   </span>
                 </div>
               </Link>
@@ -112,7 +122,10 @@ export function MainPage() {
         </div>
         <div className={styles.pagination}>
           <Button
-            onClick={() => setPage(page - 1)}
+            onClick={() => {
+              searchParams.set('page', `${page - 1}`);
+              setSearchParams(searchParams);
+            }}
             disabled={page === 1}
           >
             Prev
@@ -121,7 +134,11 @@ export function MainPage() {
             {page}
           </div>
           <Button
-            onClick={() => setPage(page + 1)}
+            disabled={coins && coins.data.length < 10}
+            onClick={() => {
+              searchParams.set('page', `${page + 1}`);
+              setSearchParams(searchParams);
+            }}
           >
             Next
           </Button>

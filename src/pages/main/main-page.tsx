@@ -7,7 +7,7 @@ import styles from './main-page.module.scss';
 import { useState } from 'react';
 
 export function MainPage() {
-  const [isModalOpen, setIsModalOpen] = useState(true);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   return(
       <div className={styles.list}>

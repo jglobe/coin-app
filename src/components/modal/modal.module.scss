@@ -1,0 +1,65 @@
+@import '@/vars.module.scss';
+
+.wrapper {
+  height: 100vh;
+  width: 100vw;
+
+  position: absolute;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  background-color: $--app-bg;
+  opacity: 0.95;
+  z-index: 100;
+
+  &__inner {
+    height: 100%;
+    width: 100%;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+}
+
+.modal {
+  padding: 16px;
+
+  height: auto;
+  min-height: 100px;
+  min-width: 300px;
+  max-width: 600px;
+
+  position: relative;
+
+  background-color: $--modal-bg;
+  opacity: 1;
+  border: none;
+  border-radius: 8px;
+
+  &__close {
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    transform: rotate(45deg);
+
+    font-size: 28px;
+    line-height: 28px;
+    color: $--font-color-primary;
+    background-color: transparent;
+    border: none;
+    border-radius: 50px;
+
+    cursor: pointer;
+  }
+}
+
+@media (max-width: 768px) {
+  .modal {
+    margin: 0 16px;
+
+    min-width: auto;
+    width: 100%;
+  }
+}

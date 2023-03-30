@@ -1,0 +1,23 @@
+@import 'vars.module.scss';
+
+body {
+  background-color: $--app-bg;
+  color: $--font-color-primary;
+}
+
+.app {
+  padding: 32px 8px;
+  margin: 0 auto;
+
+  min-height: calc(100vh - 64px);
+  width: inherit;
+  max-width: 1200px;
+  display: flex;
+  gap: 32px;
+  flex-direction: column;
+
+  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+  font-size: 14px;
+}

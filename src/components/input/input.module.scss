@@ -1,0 +1,34 @@
+@import '@/vars.module.scss';
+
+.input {
+  padding: 0 8px;
+
+  height: auto;
+  min-height: 40px;
+  width: 60px;
+
+  border: none;
+  border-radius: 8px;
+
+  background-color: $--card-bg;
+  color: $--font-color-primary;
+  caret-color: $--font-color-primary;
+
+  &:hover {
+    background-color: $--card-bg-hover;
+  }
+
+  &:focus {
+    box-shadow: 0 0 0 2px $--card-bg inset;
+  }
+}
+
+.input::-webkit-outer-spin-button,
+.input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+.input[type=number] {
+    -moz-appearance:textfield;
+}

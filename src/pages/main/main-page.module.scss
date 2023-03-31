@@ -59,6 +59,14 @@
     font-size: 18px;
     font-weight: 500;
     color: $--font-color-primary;
+
+    &_negative {
+      color: $--font-color-negative;
+    }
+
+    &_positive {
+      color: $--font-color-positive;
+    }
   }
 }
 

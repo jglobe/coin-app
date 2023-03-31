@@ -15,7 +15,6 @@ export function addCoin(coin:coincapServices.CoinTypeRaw, count:number) {
   } else {
     portfolio.push({ id: coin.id, name: coin.name, data: [{ count, transactionId, current:coin }]})
   }
-  console.log(portfolio);
   localStorage.setItem('portfolio', JSON.stringify(portfolio));
 }
 
@@ -34,8 +33,6 @@ export function removeCoin(id:string, transactionId: number) {
        portfolio.splice(currentCoinIndex, 1);
     }
   }
-
-  console.log(portfolio);
   localStorage.setItem('portfolio', JSON.stringify(portfolio));
 }
 
@@ -49,4 +46,19 @@ interface PortfolioItemPropsType {
   }[]
 }
 
-export type { PortfolioItemPropsType }
+interface CalculatedPortfolioType {
+  priceUsd: string;
+  priceProfit: string;
+  change:string;
+  data:CalculatedPortfolioItemType[];
+}
+
+interface CalculatedPortfolioItemType {
+  id:string;
+  count: string;
+  priceUsd: string;
+  priceProfit: string;
+  change:string;
+}
+
+export type { PortfolioItemPropsType, CalculatedPortfolioType, CalculatedPortfolioItemType }

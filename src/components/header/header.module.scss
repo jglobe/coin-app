@@ -47,6 +47,13 @@
       cursor: pointer;
     }
 
+    &_negative {
+      color: $--font-color-negative;
+    }
+
+    &_positive {
+      color: $--font-color-positive;
+    }
   }
 }
 

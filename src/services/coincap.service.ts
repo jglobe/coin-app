@@ -12,6 +12,11 @@ export async function getCoins(limit: number, offset:number) {
   return result.data
 }
 
+export async function getTreeTopCoins() {
+  const result = await axios.get(baseUrl, { params: { limit:3 } });
+  return result.data
+}
+
 interface CoinTypeRaw {
   changePercent24Hr: string;
   explorer: string;

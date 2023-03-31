@@ -1,22 +1,45 @@
+import { formatPercent, formatCurrency } from '@/helpers/number';
+import * as coincapServices from '@/services/coincap.service';
+import { useEffect, useState } from 'react';
 
 import styles from './header.module.scss';
 
 export function Header() {
+  const emptyCoinData:coincapServices.CoinsListPropsType = {
+    data: [],
+    timestamp: 0
+  };
+
+  const [topThree, setTopThree] = useState(emptyCoinData);
+
+  useEffect(() => {
+    async function getTopThreeCoins() {
+      try {
+        const topTreeCoins = await coincapServices.getTreeTopCoins();
+
+        setTopThree(topTreeCoins)
+      } catch(error) {
+        console.error(error)
+      }
+    }
+
+    getTopThreeCoins();
+  });
+
   return(
     <header className={styles.header}>
       <div className={styles.popular}>
         <p className={styles.popular__title}>
           Popular coins:
         </p>
-        <div className={styles.popularCoin}>
-            BTC: <span className={styles.popularCoin__price}>$1000</span>
-        </div>
-        <div className={styles.popularCoin}>
-            BTC: <span className={styles.popularCoin__price}>$1000</span>
-        </div>
-        <div className={styles.popularCoin}>
-            BTC: <span className={styles.popularCoin__price}>$1000</span>
-        </div>
+        {topThree?.data.length && topThree.data.map((top:coincapServices.CoinTypeRaw) => (
+          <div className={styles.popularCoin}>
+            {top.symbol}:&nbsp;
+            <span className={styles.popularCoin__price}>
+              {formatCurrency(top.priceUsd, '$')}
+            </span>
+          </div>
+        ))}
       </div>
       <div className={styles.portfolio}>
         <p className={styles.portfolio__title}>

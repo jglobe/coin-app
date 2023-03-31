@@ -1,9 +1,11 @@
 import { useEffect, useState } from 'react';
 
 import { Modal } from '@/components/modal';
+import { Button } from '@/components/button';
 
 import { formatPercent, formatCurrency } from '@/helpers/number';
 import * as coincapServices from '@/services/coincap.service';
+import * as portfolioService from '@/services/portfolio.service';
 
 import styles from './header.module.scss';
 
@@ -13,8 +15,10 @@ export function Header() {
     timestamp: 0
   };
 
+  const emptyPortfolio:portfolioService.PortfolioItemPropsType[] = [];
+
   const [topThree, setTopThree] = useState(emptyCoinData);
-  const [portfolio, setPortfolio] = useState();
+  const [portfolio, setPortfolio] = useState(emptyPortfolio);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   useEffect(() => {
@@ -31,12 +35,26 @@ export function Header() {
     getTopThreeCoins();
   });
 
+  useEffect(() => {
+    isModalOpen && updatePortfolio();
+  },[isModalOpen])
+
   function openPortfolioModal() {
     setIsModalOpen(true);
   }
 
   function closePortfolioModal(event:React.MouseEvent<HTMLButtonElement, MouseEvent>) {
     setIsModalOpen(false);
+  }
+
+  function updatePortfolio() {
+    const currentPortfolio = portfolioService.getPortfolio();
+    setPortfolio(currentPortfolio);
+  }
+
+  function removeTransaction(id:string, transactionId:number) {
+    portfolioService.removeCoin(id, transactionId);
+    updatePortfolio();
   }
 
   return(
@@ -71,9 +89,46 @@ export function Header() {
           close={closePortfolioModal}
           title='Portfolio'
         >
-          {!portfolio && (
-            <div>Empty! Buy some coins...</div>
-          )}
+          <div className={styles.modalPortfolio}>
+            {!portfolio.length && (
+              <div>Empty! Buy some coins...</div>
+              )}
+            {portfolio.length > 0 && portfolio.map((coin) => (
+              <div>
+                <p className={styles.modalPortfolio__name}>{coin.name}</p>
+                <ul className={styles.modalPortfolio__transactions}>
+                  {coin.data.length > 0 && coin.data.map((transaction) => (
+                    <li
+                      key={transaction.transactionId}
+                      className={styles.transaction}
+                    >
+                      <div className={styles.transaction__data}>
+                        <div className={styles.transaction__prop}>
+                          Count:
+                          <span className={styles.transaction__value}>
+                            {transaction.count}
+                          </span>
+                        </div>
+                        <div className={styles.transaction__prop}>
+                          At price:
+                          <span className={styles.transaction__value}>
+                            {formatCurrency(transaction.current.priceUsd, '$')}
+                          </span>
+                        </div>
+                      </div>
+                      <Button
+                        type='button'
+                        onClick={() => removeTransaction(coin.id, transaction.transactionId)}
+                      >
+                        -
+                      </Button>
+                    </li>
+                  ))}
+
+                </ul>
+              </div>
+            ))}
+          </div>
         </Modal>
       )}
     </header>

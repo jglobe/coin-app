@@ -4,12 +4,13 @@ import classNames from 'classnames';
 
 import { Button } from '@/components/button';
 import { Modal } from '@/components/modal';
+import { Input } from '@/components/input';
 
 import { formatPercent, formatCurrency } from '@/helpers/number';
 import * as coincapServices from '@/services/coincap.service';
+import * as portfolioService from '@/services/portfolio.service';
 
 import styles from './main-page.module.scss';
-import { Input } from '@/components/input';
 
 export function MainPage() {
   let [searchParams, setSearchParams] = useSearchParams();
@@ -73,11 +74,17 @@ export function MainPage() {
     setIsModalOpen(false);
   }
 
-  function buyCoin() {
+  function buyCoin(event: React.FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    const form = event.currentTarget
 
+    const data = new FormData(event.currentTarget);
+    const count = data.get('count');
+
+    selectedCoin.id && count && portfolioService.addCoin(selectedCoin, +count);
+    form.reset();
+    setIsModalOpen(false);
   }
-
-
 
   return(
       <div className={styles.list}>
@@ -193,8 +200,10 @@ export function MainPage() {
                 >
                   <Input
                     type="number"
-                    placeholder='type...'
+                    placeholder='0.000001'
+                    name='count'
                     step={0.000001}
+                    min={0.000001}
                     required
                   />
                   <Button

@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { Fragment, useEffect, useState } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
 import classNames from 'classnames';
 
@@ -9,16 +9,34 @@ import { formatPercent, formatCurrency } from '@/helpers/number';
 import * as coincapServices from '@/services/coincap.service';
 
 import styles from './main-page.module.scss';
+import { Input } from '@/components/input';
 
 export function MainPage() {
   let [searchParams, setSearchParams] = useSearchParams();
-  
-  const emptyCoinData:coincapServices.CoinsListPropsType = {
+
+  const emptyCoinsData:coincapServices.CoinsListPropsType = {
     data: [],
     timestamp: 0
   };
+
+  const emptyCoinData:coincapServices.CoinTypeRaw = {
+    changePercent24Hr: '',
+    explorer: '',
+    id: '',
+    marketCapUsd: '',
+    maxSupply: '',
+    name: '',
+    priceUsd: '',
+    rank: '',
+    supply: '',
+    symbol: '',
+    volumeUsd24Hr: '',
+    vwap24Hr: ''
+  };
+
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [coins, setCoins] = useState(emptyCoinData);
+  const [selectedCoin, setSelectedCoin] = useState(emptyCoinData);
+  const [coins, setCoins] = useState(emptyCoinsData);
   const [page, setPage] = useState(1);
 
   useEffect(() => {
@@ -45,6 +63,21 @@ export function MainPage() {
     getCoinPerPage(coinsPerPage, coinsOffset);
     setPage(+currentPage);
   }, [searchParams])
+
+  function openBuyModal(coin:coincapServices.CoinTypeRaw) {
+    setIsModalOpen(true);
+    setSelectedCoin(coin);
+  }
+
+  function closeBuyModal(event:React.MouseEvent<HTMLButtonElement, MouseEvent>) {
+    setIsModalOpen(false);
+  }
+
+  function buyCoin() {
+
+  }
+
+
 
   return(
       <div className={styles.list}>
@@ -113,7 +146,7 @@ export function MainPage() {
               </Link>
               <Button
                 className={styles.coin__button}
-                onClick={() => setIsModalOpen(true)}
+                onClick={() => openBuyModal(coin)}
               >
                 +
               </Button>
@@ -145,9 +178,34 @@ export function MainPage() {
         </div>
         {isModalOpen && (
           <Modal
-            close={setIsModalOpen}
+            close={closeBuyModal}
+            title='Buy'
           >
-            modal
+            {selectedCoin && (
+              <Fragment>
+                <div className={styles.modalField}>
+                  Buy <span className={styles.modalField__mark}>{selectedCoin.name}</span>
+                  at price: <span className={styles.modalField__mark}>{formatCurrency(selectedCoin.priceUsd, '$')}</span>
+                </div>
+                <form
+                  onSubmit={buyCoin}
+                  className={styles.form}
+                >
+                  <Input
+                    type="number"
+                    placeholder='type...'
+                    step={0.000001}
+                    required
+                  />
+                  <Button
+                    type='submit'
+                  >
+                    Buy
+                  </Button>
+                </form>
+              </Fragment>
+            )}
+
           </Modal>
         )}
 

@@ -1,6 +1,9 @@
+import { useEffect, useState } from 'react';
+
+import { Modal } from '@/components/modal';
+
 import { formatPercent, formatCurrency } from '@/helpers/number';
 import * as coincapServices from '@/services/coincap.service';
-import { useEffect, useState } from 'react';
 
 import styles from './header.module.scss';
 
@@ -11,6 +14,8 @@ export function Header() {
   };
 
   const [topThree, setTopThree] = useState(emptyCoinData);
+  const [portfolio, setPortfolio] = useState();
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   useEffect(() => {
     async function getTopThreeCoins() {
@@ -26,6 +31,14 @@ export function Header() {
     getTopThreeCoins();
   });
 
+  function openPortfolioModal() {
+    setIsModalOpen(true);
+  }
+
+  function closePortfolioModal(event:React.MouseEvent<HTMLButtonElement, MouseEvent>) {
+    setIsModalOpen(false);
+  }
+
   return(
     <header className={styles.header}>
       <div className={styles.popular}>
@@ -33,7 +46,7 @@ export function Header() {
           Popular coins:
         </p>
         {topThree?.data.length && topThree.data.map((top:coincapServices.CoinTypeRaw) => (
-          <div className={styles.popularCoin}>
+          <div key={top.id} className={styles.popularCoin}>
             {top.symbol}:&nbsp;
             <span className={styles.popularCoin__price}>
               {formatCurrency(top.priceUsd, '$')}
@@ -47,12 +60,22 @@ export function Header() {
         </p>
         <button
           type='button'
-          onClick={() => {}}
+          onClick={() => openPortfolioModal()}
           className={styles.portfolio__button}
         >
           134,32 USD +2,38 (1,80 %)
         </button>
       </div>
+      {isModalOpen && (
+        <Modal
+          close={closePortfolioModal}
+          title='Portfolio'
+        >
+          {!portfolio && (
+            <div>Empty! Buy some coins...</div>
+          )}
+        </Modal>
+      )}
     </header>
   )
 }

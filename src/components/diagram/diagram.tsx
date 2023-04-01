@@ -55,7 +55,6 @@ export function Diagram({ id }:DiagramPropsType) {
       observer.disconnect();
     };
   }, [])
-  console.log(history);
 
   const formatXAxis = (tickItem:string) => {
     const date = new Date(tickItem)

@@ -23,7 +23,9 @@ export function Modal({ children, title = '', close }:ModalPropsType) {
               {title}
             </h3>
           )}
-          {children}
+          <div className={styles.modal__content}>
+            {children}
+          </div>
         </div>
       </div>
     </div>

@@ -17,6 +17,11 @@ export async function getTreeTopCoins() {
   return result.data
 }
 
+export async function getHistoryById(id: string, interval:string) {
+  const result = await axios.get(`${baseUrl}/${id}/history`, { params: { interval } });
+  return result.data
+}
+
 interface CoinTypeRaw {
   changePercent24Hr: string;
   explorer: string;

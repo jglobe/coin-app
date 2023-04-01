@@ -10,6 +10,7 @@ import * as coincapServices from '@/services/coincap.service';
 import * as portfolioService from '@/services/portfolio.service';
 
 import styles from './coin-page.module.scss';
+import { Diagram } from '@/components/diagram';
 
 export function CoinPage() {
   const emptyCoinData = {} as coincapServices.CoinPropsType;
@@ -49,7 +50,7 @@ export function CoinPage() {
         <Fragment>
           <h2 className={styles.page__title}>{coin.data.name}</h2>
           <div className={styles.page__diagram}>
-            daigram
+            <Diagram id={coin.data.id} />
           </div>
           <div className={styles.coin}>
             <div className={styles.coin__prop}>

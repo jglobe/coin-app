@@ -1,0 +1,39 @@
+@import '@/vars.module.scss';
+
+.diagram {
+  padding: 0;
+  margin: 0;
+
+  height: 100%;
+  width: 100%;
+}
+
+.group {
+  padding: 4px 16px;
+
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+
+  &__label {
+    padding:  4px 8px;
+
+    color: $--font-color-primary;
+    background-color: $--card-bg;
+    border: none;
+    border-radius: 8px;
+
+    input {
+      display: none;
+    }
+
+    &:hover {
+      background-color: $--card-bg-hover;
+      cursor: pointer;
+    }
+
+    &_active {
+      color: $--font-color-positive
+    }
+  }
+}

@@ -1,14 +1,16 @@
 import { Fragment, useEffect, useState } from 'react';
 import { useParams } from 'react-router';
+import classNames from 'classnames';
 
 import { Button } from '@/components/button';
 import { Input } from '@/components/input';
 
 import { formatPercent, formatCurrency } from '@/helpers/number';
 import * as coincapServices from '@/services/coincap.service';
+import * as portfolioService from '@/services/portfolio.service';
 
 import styles from './coin-page.module.scss';
-import classNames from 'classnames';
+import { Diagram } from '@/components/diagram';
 
 export function CoinPage() {
   const emptyCoinData = {} as coincapServices.CoinPropsType;
@@ -31,13 +33,24 @@ export function CoinPage() {
 
   }, [id])
 
+  function buyCoin(event: React.FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    const form = event.currentTarget
+
+    const data = new FormData(event.currentTarget);
+    const count = data.get('count');
+
+    coin.data.id && count && portfolioService.addCoin(coin.data, +count);
+    form.reset();
+  }
+
   return(
     <div className={styles.page}>
       {coin?.data && (
         <Fragment>
           <h2 className={styles.page__title}>{coin.data.name}</h2>
           <div className={styles.page__diagram}>
-            daigram
+            <Diagram id={coin.data.id} />
           </div>
           <div className={styles.coin}>
             <div className={styles.coin__prop}>
@@ -87,10 +100,17 @@ export function CoinPage() {
               </span>
             </div>
 
-            <form className={styles.form}>
+            <form
+              onSubmit={buyCoin}
+              className={styles.form}
+            >
               <Input
                 type="number"
-                placeholder='type...'
+                placeholder='0.000001'
+                name='count'
+                step={0.000001}
+                min={0.000001}
+                required
               />
               <Button
                 type='submit'

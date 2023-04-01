@@ -47,6 +47,68 @@
       cursor: pointer;
     }
 
+    &_negative {
+      color: $--font-color-negative;
+    }
+
+    &_positive {
+      color: $--font-color-positive;
+    }
+  }
+}
+
+.modalPortfolio {
+  height: auto;
+
+  overflow-y: auto;
+
+  &__name {
+    margin: 0 0 8px;
+
+    font-size: 16px;
+  }
+
+  &__transactions {
+    margin: 0 0 12px;
+    padding: 0;
+
+    list-style: none;
+  }
+}
+
+.transaction {
+  margin-bottom: 4px;
+
+  display: flex;
+  justify-content: space-between;
+  gap: 4px;
+
+  &__data {
+    padding: 0 8px;
+
+    display: flex;
+    flex: 1;
+    gap: 8px;
+    justify-content: flex-start;
+    align-items: center;
+
+    color: $--font-color-primary;
+    background-color: $--card-bg;
+    border: none;
+    border-radius: 8px;
+  }
+
+  &__prop {
+    display: flex;
+    flex-direction: column;
+
+    color: $--font-color-secondary;
+    font-size: 10px;
+  }
+
+  &__value {
+    color: $--font-color-primary;
+    font-size: 14px;
   }
 }
 

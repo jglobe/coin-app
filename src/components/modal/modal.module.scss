@@ -9,8 +9,7 @@
   top: 0;
   right: 0;
   bottom: 0;
-  background-color: $--app-bg;
-  opacity: 0.95;
+  background-color: $--modal-wrapper-bg;
   z-index: 100;
 
   &__inner {
@@ -32,6 +31,7 @@
   max-width: 600px;
 
   position: relative;
+  z-index: 101;
 
   background-color: $--modal-bg;
   opacity: 1;
@@ -52,6 +52,13 @@
     border-radius: 50px;
 
     cursor: pointer;
+  }
+
+  &__title {
+    margin: 0 0 8px;
+
+    font-size: 18px;
+    line-height: 26px;
   }
 }
 

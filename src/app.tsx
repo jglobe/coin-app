@@ -5,7 +5,7 @@ import { Header } from '@/components/header';
 import { MainPage } from '@/pages/main';
 import { CoinPage } from '@/pages/coin';
 
-import { formatPercent, formatCurrency, calculatePortfolio } from '@/helpers/number';
+import { calculatePortfolio } from '@/helpers/number';
 import { PortfolioContext } from '@/context';
 import * as portfolioService from '@/services/portfolio.service';
 

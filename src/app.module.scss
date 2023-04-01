@@ -21,3 +21,11 @@ body {
   font-weight: 400;
   font-size: 14px;
 }
+
+@media (max-width: 768px) {
+  .app {
+    padding: 8px;
+
+    gap: 20px;
+  }
+}

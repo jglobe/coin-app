@@ -1,4 +1,4 @@
-import { Fragment, useEffect, useState } from 'react';
+import { Fragment, useContext, useEffect, useState } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
 import classNames from 'classnames';
 
@@ -9,10 +9,12 @@ import { Input } from '@/components/input';
 import { formatPercent, formatCurrency } from '@/helpers/number';
 import * as coincapServices from '@/services/coincap.service';
 import * as portfolioService from '@/services/portfolio.service';
+import { PortfolioContext } from '@/context';
 
 import styles from './main-page.module.scss';
 
 export function MainPage() {
+  const context = useContext(PortfolioContext)
   let [searchParams, setSearchParams] = useSearchParams();
 
   const emptyCoinsData:coincapServices.CoinsListPropsType = {
@@ -70,7 +72,7 @@ export function MainPage() {
     setSelectedCoin(coin);
   }
 
-  function closeBuyModal(event:React.MouseEvent<HTMLButtonElement, MouseEvent>) {
+  function closeBuyModal() {
     setIsModalOpen(false);
   }
 
@@ -81,7 +83,7 @@ export function MainPage() {
     const data = new FormData(event.currentTarget);
     const count = data.get('count');
 
-    selectedCoin.id && count && portfolioService.addCoin(selectedCoin, +count);
+    selectedCoin.id && count && context.addTransaction({ current: selectedCoin, count: +count });
     form.reset();
     setIsModalOpen(false);
   }

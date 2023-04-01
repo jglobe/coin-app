@@ -42,7 +42,7 @@ export function Diagram({ id }:DiagramPropsType) {
       entries.forEach((entry) => {
         const { inlineSize: width, blockSize: height } = entry.contentBoxSize[0];
 
-        if(width > 720) {
+        if(width > 502) {
           setSize({ height: 300, width })
         } else {
           setSize({ height: 180, width })
@@ -55,11 +55,10 @@ export function Diagram({ id }:DiagramPropsType) {
       observer.disconnect();
     };
   }, [])
-  console.log(history);
 
   const formatXAxis = (tickItem:string) => {
     const date = new Date(tickItem)
-    return date.toLocaleDateString("en-US");
+    return date.toLocaleString("ru-RU");
   }
 
   return(
@@ -70,7 +69,12 @@ export function Diagram({ id }:DiagramPropsType) {
       {history?.length > 0 && (
           <>
             {size.width && (
-              <LineChart width={size.width} height={size.height} data={history}>
+              <LineChart
+                width={size.width}
+                height={size.height}
+                data={history}
+                margin={{ left: 10 }}
+              >
                 <Line
                   stroke='#77ec81'
                   activeDot={false}
@@ -78,9 +82,11 @@ export function Diagram({ id }:DiagramPropsType) {
                   dataKey="priceUsd"
                   />
                 <XAxis
+                  tick={size.width < 550 ? false: true}
                   dataKey='date'
                   tickFormatter={formatXAxis}
                   interval={size.width > 720 ? Math.floor(history.length/4) : Math.floor(history.length/2) }
+                  tickCount={2}
                 />
                 <YAxis />
               </LineChart>

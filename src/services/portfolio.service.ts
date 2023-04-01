@@ -8,14 +8,20 @@ export function addCoin(coin:coincapServices.CoinTypeRaw, count:number) {
   const portfolio = getPortfolio();
   const currentIndex = portfolio.findIndex((item: PortfolioItemPropsType) => item.id === coin.id);
 
-  const transactionId = Math.floor(Math.random() * 1000000);
+  const transaction = {
+    transactionId: Math.floor(Math.random() * 1000000),
+    count,
+    current:coin
+  }
 
   if(currentIndex >= 0) {
-    portfolio[currentIndex].data.push({ count, transactionId, current:coin })
+    portfolio[currentIndex].data.push(transaction)
   } else {
-    portfolio.push({ id: coin.id, name: coin.name, data: [{ count, transactionId, current:coin }]})
+    portfolio.push({ id: coin.id, name: coin.name, data: [transaction]})
   }
   localStorage.setItem('portfolio', JSON.stringify(portfolio));
+
+  return transaction;
 }
 
 export function removeCoin(id:string, transactionId: number) {
@@ -39,11 +45,7 @@ export function removeCoin(id:string, transactionId: number) {
 interface PortfolioItemPropsType {
   id: string;
   name: string;
-  data: {
-    count: number;
-    transactionId: number;
-    current:coincapServices.CoinTypeRaw;
-  }[]
+  data: TransactionType[]
 }
 
 interface CalculatedPortfolioType {
@@ -61,4 +63,10 @@ interface CalculatedPortfolioItemType {
   change:string;
 }
 
-export type { PortfolioItemPropsType, CalculatedPortfolioType, CalculatedPortfolioItemType }
+interface TransactionType {
+  count: number;
+  transactionId?: number;
+  current: coincapServices.CoinTypeRaw;
+}
+
+export type { PortfolioItemPropsType, CalculatedPortfolioType, CalculatedPortfolioItemType,TransactionType }

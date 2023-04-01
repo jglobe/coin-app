@@ -12,6 +12,7 @@
   padding: 4px 16px;
 
   display: flex;
+  flex-direction: row-reverse;
   flex-wrap: wrap;
   gap: 16px;
 
@@ -35,5 +36,11 @@
     &_active {
       color: $--font-color-positive
     }
+  }
+}
+
+@media (max-width: 550px) {
+  .group {
+    row-gap: 8px;
   }
 }

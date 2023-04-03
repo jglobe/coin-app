@@ -4,6 +4,7 @@ import { useNavigate, useSearchParams } from 'react-router-dom';
 import { Coins } from '@/components/coins';
 import { Pagination } from '@/components/pagination';
 import { Button } from '@/components/button';
+import { Loader } from '@/components/loader';
 
 import * as coincapServices from '@/services/coincap.service';
 
@@ -16,6 +17,7 @@ export function MainPage() {
   };
   const [coins, setCoins] = useState(emptyCoinsData);
   const [page, setPage] = useState(1);
+  const [pending, setPending] = useState(false);
 
   let [searchParams, setSearchParams] = useSearchParams();
 
@@ -32,11 +34,14 @@ export function MainPage() {
 
     async function getCoinPerPage(perPage:number, offset:number) {
       try {
+        setPending(true);
         const coinsList = await coincapServices.getCoins(perPage, offset);
 
         setCoins(coinsList);
       } catch(error) {
         console.error(error)
+      } finally {
+        setPending(false);
       }
     }
 
@@ -49,10 +54,13 @@ export function MainPage() {
   return(
       <div className={styles.list}>
         <div className={styles.list__body}>
-          <Coins
-            coins={coins.data ? coins.data : null}
-          />
-          {(!coins.data || coins.data.length === 0) && (
+          {pending && <Loader />}
+          {!pending && (
+            <Coins
+              coins={coins.data ? coins.data : null}
+            />
+          )}
+          {!pending && (!coins.data || coins.data.length === 0) && (
             <>
               <Button
                 onClick={() => {
@@ -72,18 +80,20 @@ export function MainPage() {
             </>
           )}
         </div>
-        <Pagination
-          prev={() => {
-            searchParams.set('page', `${page - 1}`);
-            setSearchParams(searchParams);
-          }}
-          next={() => {
-            searchParams.set('page', `${page + 1}`);
-            setSearchParams(searchParams);
-          }}
-          page={page}
-          length={coins.data.length}
-        />
+        {!pending && (
+          <Pagination
+            prev={() => {
+              searchParams.set('page', `${page - 1}`);
+              setSearchParams(searchParams);
+            }}
+            next={() => {
+              searchParams.set('page', `${page + 1}`);
+              setSearchParams(searchParams);
+            }}
+            page={page}
+            length={coins.data.length}
+          />
+        )}
       </div>
   )
 }

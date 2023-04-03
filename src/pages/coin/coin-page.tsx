@@ -6,6 +6,7 @@ import { Button } from '@/components/button';
 import { Diagram } from '@/components/diagram';
 import { FormBuy } from '@/components/form-buy';
 import { SingleCoin } from '@/components/single-coin';
+import { Loader } from '@/components/loader';
 
 import * as coincapServices from '@/services/coincap.service';
 import { PortfolioContext } from '@/contexts/portfolio.context';
@@ -17,17 +18,21 @@ export function CoinPage() {
 
   const emptyCoinData = {} as coincapServices.CoinPropsType;
   const [coin, setCoin] = useState(emptyCoinData);
+  const [pending, setPending] = useState(false);
 
   let { id } = useParams();
 
   useEffect(() => {
     async function getCoinById(id:string) {
       try {
+        setPending(true);
         const currentCoin = await coincapServices.getCoin(id);
 
         setCoin(currentCoin);
       } catch(error) {
         console.error(error)
+      } finally {
+        setPending(false);
       }
     }
 
@@ -48,28 +53,38 @@ export function CoinPage() {
 
   return(
     <>
-      <div className={styles.page}>
-        {coin?.data && (
-          <Fragment>
-            <h2 className={styles.page__title}>{coin.data.name}</h2>
-            <div className={styles.page__diagram}>
-              <Diagram id={coin.data.id} />
-            </div>
-            <FormBuy
-              onSubmit={buyCoin}
-            />
-          </Fragment>
-        )}
-        <SingleCoin
-          coin={coin.data ? coin.data : null}
-        />
-      </div>
-      <Button
-        onClick={() => navigate(-1)}
-        className={styles.backButton}
-      >
-        Back
-      </ Button>
+      {pending && <Loader />}
+      {!pending && (
+        <>
+          <div className={styles.page}>
+            {coin?.data && (
+              <Fragment>
+                <h2 className={styles.page__title}>{coin.data.name}</h2>
+                <div className={styles.page__diagram}>
+                  <Diagram id={coin.data.id} />
+                </div>
+                <FormBuy
+                  onSubmit={buyCoin}
+                />
+                <SingleCoin
+                  coin={coin.data}
+                />
+              </Fragment>
+            )}
+            {!coin?.data && (
+              <div>
+                Is something wrong! Get back.
+              </div>
+            )}
+          </div>
+          <Button
+            onClick={() => navigate(-1)}
+            className={styles.backButton}
+          >
+            Back
+          </ Button>
+        </>
+      )}
     </>
   )
 }

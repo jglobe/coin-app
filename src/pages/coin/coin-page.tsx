@@ -1,15 +1,15 @@
 import { Fragment, useContext, useEffect, useState } from 'react';
 import { useParams } from 'react-router';
 import { useNavigate } from 'react-router-dom';
-import classNames from 'classnames';
 
 import { Button } from '@/components/button';
-import { Input } from '@/components/input';
 import { Diagram } from '@/components/diagram';
+import { FormBuy } from '@/components/form-buy';
+import { SingleCoin } from '@/components/single-coin';
+import { Loader } from '@/components/loader';
 
-import { formatPercent, formatCurrency } from '@/helpers/number';
 import * as coincapServices from '@/services/coincap.service';
-import { PortfolioContext } from '@/context';
+import { PortfolioContext } from '@/contexts/portfolio.context';
 
 import styles from './coin-page.module.scss';
 
@@ -18,17 +18,21 @@ export function CoinPage() {
 
   const emptyCoinData = {} as coincapServices.CoinPropsType;
   const [coin, setCoin] = useState(emptyCoinData);
+  const [pending, setPending] = useState(false);
 
   let { id } = useParams();
 
   useEffect(() => {
     async function getCoinById(id:string) {
       try {
+        setPending(true);
         const currentCoin = await coincapServices.getCoin(id);
 
         setCoin(currentCoin);
       } catch(error) {
         console.error(error)
+      } finally {
+        setPending(false);
       }
     }
 
@@ -45,93 +49,42 @@ export function CoinPage() {
     coin.data.id && count && context.addTransaction({ current: coin.data, count: +count });
     form.reset();
   }
-  let navigate = useNavigate();
+  const navigate = useNavigate();
 
   return(
     <>
-      <div className={styles.page}>
-        {coin?.data && (
-          <Fragment>
-            <h2 className={styles.page__title}>{coin.data.name}</h2>
-            <div className={styles.page__diagram}>
-              <Diagram id={coin.data.id} />
-            </div>
-            <form
-              onSubmit={buyCoin}
-              className={styles.form}
-            >
-              <Input
-                className={styles.form__input}
-                type="number"
-                placeholder='0.000001'
-                name='count'
-                step={0.000001}
-                min={0.000001}
-                required
-              />
-              <Button
-                type='submit'
-              >
-                Buy
-              </Button>
-            </form>
-            <div className={styles.coin}>
-              <div className={styles.coin__prop}>
-                Name:
-                <span className={styles.coin__value}>
-                  {coin.data.name}
-                </span>
+      {pending && <Loader />}
+      {!pending && (
+        <>
+          <div className={styles.page}>
+            {coin?.data && (
+              <Fragment>
+                <h2 className={styles.page__title}>{coin.data.name}</h2>
+                <div className={styles.page__diagram}>
+                  <Diagram id={coin.data.id} />
+                </div>
+                <FormBuy
+                  onSubmit={buyCoin}
+                />
+                <SingleCoin
+                  coin={coin.data}
+                />
+              </Fragment>
+            )}
+            {!coin?.data && (
+              <div>
+                Is something wrong! Get back.
               </div>
-              <div className={styles.coin__prop}>
-                Symbol:
-                <span className={styles.coin__value}>
-                  {coin.data.symbol}
-                </span>
-              </div>
-              <div className={styles.coin__prop}>
-                Market Cap:
-                <span className={styles.coin__value}>
-                  {formatCurrency(coin.data.marketCapUsd, '$')}
-                </span>
-              </div>
-              <div className={styles.coin__prop}>
-                VWAP (24Hr):
-                <span className={styles.coin__value}>
-                  {formatCurrency(coin.data.vwap24Hr, '$')}
-                </span>
-              </div>
-              <div className={styles.coin__prop}>
-                Supply:
-                <span className={styles.coin__value}>
-                  {formatCurrency(coin.data.supply, '')}
-                </span>
-              </div>
-              <div className={styles.coin__prop}>
-                Volume (24Hr):
-                <span className={styles.coin__value}>
-                  {formatCurrency(coin.data.volumeUsd24Hr, '$')}
-                </span>
-              </div>
-              <div className={styles.coin__prop}>
-                Change (24Hr):
-                <span className={classNames({
-                  [styles.coin__value]: true,
-                  [styles.coin__value_positive]: +coin.data.changePercent24Hr > 0,
-                  [styles.coin__value_negative]: +coin.data.changePercent24Hr < 0
-                })}>
-                  {formatPercent(coin.data.changePercent24Hr)}
-                </span>
-              </div>
-            </div>
-          </Fragment>
-        )}
-      </div>
-      <Button
-        onClick={() => navigate(-1)}
-        className={styles.backButton}
-      >
-          Back
-      </ Button>
+            )}
+          </div>
+          <Button
+            onClick={() => navigate(-1)}
+            className={styles.backButton}
+          >
+            Back
+          </ Button>
+        </>
+      )}
     </>
   )
 }

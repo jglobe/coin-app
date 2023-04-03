@@ -1,0 +1,14 @@
+.pagination {
+  height: 40px;
+
+  display: flex;
+  justify-content: center;
+
+  &__current {
+    width: 40px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+}

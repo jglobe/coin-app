@@ -1,0 +1,31 @@
+@import '@/vars.module.scss';
+
+.coin {
+
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+
+  &__prop {
+    display: flex;
+    align-items: baseline;
+    flex-direction: column;
+
+    font-size: 14px;
+    color: $--font-color-secondary;
+  }
+
+  &__value {
+    font-size: 18px;
+    font-weight: 500;
+    color: $--font-color-primary;
+
+    &_negative {
+      color: $--font-color-negative;
+    }
+
+    &_positive {
+      color: $--font-color-positive;
+    }
+  }
+}

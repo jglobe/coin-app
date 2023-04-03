@@ -30,59 +30,11 @@
   }
 }
 
-.form {
-  width: 100%;
-  display: flex;
-  column-gap: 8px;
-}
-
-.coin {
-
-  display: flex;
-  gap: 16px;
-  flex-wrap: wrap;
-
-  &__prop {
-    display: flex;
-    align-items: baseline;
-    flex-direction: column;
-
-    font-size: 14px;
-    color: $--font-color-secondary;
-  }
-
-  &__value {
-    font-size: 18px;
-    font-weight: 500;
-    color: $--font-color-primary;
-
-    &_negative {
-      color: $--font-color-negative;
-    }
-
-    &_positive {
-      color: $--font-color-positive;
-    }
-  }
-}
-
 .backButton {
   width: 100px;
 }
 
 @media (max-width:768px) {
-  .form {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-
-    &__input {
-      width: auto;
-
-      text-align: center;
-    }
-  }
-
   .backButton {
     width: auto;
   }

@@ -8,13 +8,12 @@ import { Input } from '@/components/input';
 
 import { formatPercent, formatCurrency } from '@/helpers/number';
 import * as coincapServices from '@/services/coincap.service';
-import * as portfolioService from '@/services/portfolio.service';
-import { PortfolioContext } from '@/context';
+import { PortfolioContext } from '@/contexts/portfolio.context';
 
 import styles from './main-page.module.scss';
 
 export function MainPage() {
-  const context = useContext(PortfolioContext)
+  const context = useContext(PortfolioContext);
   let [searchParams, setSearchParams] = useSearchParams();
 
   const emptyCoinsData:coincapServices.CoinsListPropsType = {

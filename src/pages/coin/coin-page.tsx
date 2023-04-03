@@ -9,7 +9,7 @@ import { Diagram } from '@/components/diagram';
 
 import { formatPercent, formatCurrency } from '@/helpers/number';
 import * as coincapServices from '@/services/coincap.service';
-import { PortfolioContext } from '@/context';
+import { PortfolioContext } from '@/contexts/portfolio.context';
 
 import styles from './coin-page.module.scss';
 

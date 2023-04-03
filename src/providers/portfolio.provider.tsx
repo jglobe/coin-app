@@ -2,7 +2,7 @@
 import { useCallback, useEffect, useState } from 'react';
 
 import * as portfolioService from '@/services/portfolio.service';
-import { PortfolioContext } from '@/context';
+import { PortfolioContext } from '@/contexts/portfolio.context';
 import { calculatePortfolio } from '@/helpers/number';
 
 interface ProviderType {

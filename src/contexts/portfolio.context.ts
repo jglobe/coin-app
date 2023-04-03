@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 
 import * as portfolioService from '@/services/portfolio.service';
 
@@ -8,7 +8,6 @@ interface ContextPortfolioType {
   addTransaction: (transaction: portfolioService.TransactionType) => void;
   removeTransaction: (coinId: string, transactionId: number) => void;
 }
-
 
 const emptyPortfolio: ContextPortfolioType = {
   portfolio: [],

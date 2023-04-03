@@ -5,6 +5,7 @@ import { MainPage } from '@/pages/main';
 import { CoinPage } from '@/pages/coin';
 
 import { PortfolioContextProvider } from '@/providers/portfolio.provider';
+import { PopularCoinsContextProvider } from '@/providers/popular-coins.provider';
 
 import styles from '@/app.module.scss';
 
@@ -28,7 +29,9 @@ function App() {
   return (
     <PortfolioContextProvider>
       <div className={styles.app}>
-        <Header />
+        <PopularCoinsContextProvider>
+          <Header />
+        </PopularCoinsContextProvider>
         <RouterProvider router={router}/>
       </div>
     </PortfolioContextProvider>

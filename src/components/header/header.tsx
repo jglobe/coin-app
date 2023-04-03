@@ -1,37 +1,21 @@
-import { useContext, useEffect, useState } from 'react';
+import { useContext, useState } from 'react';
+import classNames from 'classnames';
 
 import { Modal } from '@/components/modal';
 import { Button } from '@/components/button';
 
 import { formatPercent, formatCurrency } from '@/helpers/number';
 import * as coincapServices from '@/services/coincap.service';
-import { PortfolioContext } from '@/context';
+import { PortfolioContext } from '@/contexts/portfolio.context';
+import { PopularCoinsContext } from '@/contexts/popular-coins.context';
 
 import styles from './header.module.scss';
-import classNames from 'classnames';
 
 export function Header() {
   const context = useContext(PortfolioContext);
-  const emptyCoinData:coincapServices.CoinsListPropsType = {
-    data: [],
-    timestamp: 0
-  };
-  const [topThree, setTopThree] = useState(emptyCoinData);
+  const popular = useContext(PopularCoinsContext);
+
   const [isModalOpen, setIsModalOpen] = useState(false);
-
-  useEffect(() => {
-    async function getTopThreeCoins() {
-      try {
-        const topTreeCoins = await coincapServices.getTreeTopCoins();
-
-        setTopThree(topTreeCoins)
-      } catch(error) {
-        console.error(error)
-      }
-    }
-
-    getTopThreeCoins();
-  },[]);
 
   function openPortfolioModal() {
     setIsModalOpen(true);
@@ -47,7 +31,7 @@ export function Header() {
         <p className={styles.popular__title}>
           Popular coins:
         </p>
-        {topThree?.data.length && topThree.data.map((top:coincapServices.CoinTypeRaw) => (
+        {popular.popular?.length && popular.popular.map((top:coincapServices.CoinTypeRaw) => (
           <div key={top.id} className={styles.popularCoin}>
             {top.symbol}:&nbsp;
             <span className={styles.popularCoin__price}>

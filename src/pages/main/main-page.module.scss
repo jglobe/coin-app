@@ -1,5 +1,3 @@
-@import '@/vars.module.scss';
-
 .list {
   width: 100%;
 
@@ -17,147 +15,11 @@
   }
 }
 
-.listItem {
-  height: auto;
-
-  display: grid;
-  grid-template-columns: 1fr 40px;
-  column-gap: 8px;
-
-  &__link {
-    height: inherit;
-
-    display: grid;
-    grid-template-columns: minmax(140px, 500px) repeat(6, 140px);
-
-    text-decoration: none;
-    color: $--font-color-primary;
-    background-color: $--card-bg;
-    border: none;
-    border-radius: 8px;
-
-    &:hover {
-      background-color: $--card-bg-hover;
-    }
-  }
-}
-
-.coin {
-
-  &__prop {
-    padding: 8px 16px;
-
-    display: flex;
-    align-items: baseline;
-    flex-direction: column;
-
-    font-size: 12px;
-    color: $--font-color-secondary;
-  }
-
-  &__value {
-    font-size: 18px;
-    font-weight: 500;
-    color: $--font-color-primary;
-
-    &_negative {
-      color: $--font-color-negative;
-    }
-
-    &_positive {
-      color: $--font-color-positive;
-    }
-  }
-}
-
-.pagination {
-  height: 40px;
-
-  display: flex;
-  justify-content: center;
-
-  &__current {
-    width: 40px;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-}
-
-.modalField {
-
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-
-  &__mark {
-    color: $--font-color-positive;
-    font-size: 18px;
-    font-weight: 500;
-  }
-}
-
-.form {
-  width: 100%;
-  display: flex;
-  column-gap: 8px;
-}
-
 @media (max-width: 1050px)  {
-
   .list {
     &__body {
       gap: 8px;
     }
   }
 
-  .listItem {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-
-    position: relative;
-    overflow: hidden;
-    border-radius: 8px;
-
-    &__link {
-      grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
-    }
-  }
-
-  .coin {
-    &__prop {
-      padding: 4px 8px;
-
-      font-size: 10px;
-    }
-
-    &__value {
-      font-size: 14px;
-    }
-
-    &__button {
-      margin: 8px 0 0 8px;
-
-      height: 44px;
-      width: 44px;
-
-      position: absolute;
-      bottom: 0;
-      right: 0;
-
-      border-radius: 0;
-    }
-  }
-}
-
-@media (max-width: 768px) {
-  .coin {
-    &__cap,
-    &__supply,
-    &__volume {
-      display: none;
-    }
-  }
 }

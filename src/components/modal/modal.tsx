@@ -1,19 +1,23 @@
 import styles from './modal.module.scss';
 
-interface ModalPropsType {
+export interface ModalPropsType {
   children: React.ReactNode;
   title?: string;
-  close: (event:React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
+  close: () => void;
+  style?: React.CSSProperties;
 }
 
-export function Modal({ children, title = '', close }:ModalPropsType) {
+export function Modal({ children, title = '', close, style }:ModalPropsType) {
   return(
-    <div className={styles.wrapper}>
+    <div
+      className={styles.wrapper}
+      style={style}
+    >
       <div className={styles.wrapper__inner}>
         <div className={styles.modal}>
           <button
             type='button'
-            onClick={(event) => close(event)}
+            onClick={() => close()}
             className={styles.modal__close}
           >
             +

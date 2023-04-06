@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 
 import { Button } from '@/components/button';
 import { Diagram } from '@/components/diagram';
+import { HistoryType } from '@/components/diagram/diagram';
 import { FormBuy } from '@/components/form-buy';
 import { SingleCoin } from '@/components/single-coin';
 import { Loader } from '@/components/loader';
@@ -16,9 +17,13 @@ import styles from './coin-page.module.scss';
 export function CoinPage() {
   const context = useContext(PortfolioContext);
 
+  const intervals = ['m1', 'm5', 'm15', 'm30', 'h1', 'h2', 'h6', 'h12', 'd1'];
+
   const emptyCoinData = {} as coincapServices.CoinPropsType;
   const [coin, setCoin] = useState(emptyCoinData);
   const [pending, setPending] = useState(false);
+  const [dateInterval, setDateInterval] = useState('d1');
+  const [history, setHistory] = useState<HistoryType[]>([]);
 
   let { id } = useParams();
 
@@ -38,6 +43,20 @@ export function CoinPage() {
 
     if(id) getCoinById(id);
   }, [id]);
+
+  useEffect(() => {
+    async function getHistory(currentId:string, interval:string) {
+      try {
+        const currentHistory = await coincapServices.getHistoryById(currentId, interval);
+
+        setHistory(currentHistory.data)
+      } catch(error) {
+        console.error(error);
+      }
+    }
+
+    id && getHistory(id, dateInterval)
+  }, [dateInterval]);
 
   function buyCoin(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -61,7 +80,14 @@ export function CoinPage() {
               <Fragment>
                 <h2 className={styles.page__title}>{coin.data.name}</h2>
                 <div className={styles.page__diagram}>
-                  <Diagram id={coin.data.id} />
+                  {history && (
+                    <Diagram
+                      dateInterval={dateInterval}
+                      setDateInterval={setDateInterval}
+                      history={history}
+                      intervals={intervals}
+                    />
+                  )}
                 </div>
                 <FormBuy
                   onSubmit={buyCoin}

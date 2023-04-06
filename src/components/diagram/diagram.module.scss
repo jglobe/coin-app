@@ -39,6 +39,17 @@
   }
 }
 
+.warning {
+  height: 100%;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  color: $--font-color-primary;
+  font-size: 24px;
+}
+
 @media (max-width: 550px) {
   .group {
     row-gap: 8px;

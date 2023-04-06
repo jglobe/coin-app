@@ -1,36 +1,25 @@
-import { useEffect, useState, useRef } from 'react';
+import { useEffect, useState, useRef, Dispatch, SetStateAction } from 'react';
 import classNames from 'classnames';
 import { LineChart, Line, XAxis, YAxis } from 'recharts';
 import { ResizeObserver } from '@juggle/resize-observer';
 
-import * as coincapServices from '@/services/coincap.service';
-
 import styles from './diagram.module.scss';
 
-interface DiagramPropsType {
-  id: string;
+export interface HistoryType {
+  priceUsd: string;
+  time: number;
+  date: string;
 }
 
-const intervals = ['m1', 'm5', 'm15', 'm30', 'h1', 'h2', 'h6', 'h12', 'd1'];
+interface DiagramPropsType {
+  history: HistoryType[];
+  setDateInterval: Dispatch<SetStateAction<string>>;
+  dateInterval: string;
+  intervals: string[];
+}
 
-export function Diagram({ id }:DiagramPropsType) {
+export function Diagram({ history, dateInterval, setDateInterval, intervals }:DiagramPropsType) {
   const [size, setSize] = useState({height: 200, width: 300});
-  const [history, setHistory] = useState([]);
-  const [dateInterval, setDateInterval] = useState('d1');
-
-  useEffect(() => {
-    async function getHistory(currentId:string, interval:string) {
-      try {
-        const currentHistory = await coincapServices.getHistoryById(currentId, interval);
-
-        setHistory(currentHistory.data)
-      } catch(error) {
-        console.error(error);
-      }
-    }
-
-    getHistory(id, dateInterval)
-  }, [dateInterval]);
 
   const elementRef = useRef<HTMLDivElement>(null)
   useEffect(() => {
@@ -67,51 +56,56 @@ export function Diagram({ id }:DiagramPropsType) {
         ref={elementRef}
       >
       {history?.length > 0 && (
-          <>
-            {size.width && (
-              <LineChart
-                width={size.width}
-                height={size.height}
-                data={history}
-                margin={{ left: 10 }}
-              >
-                <Line
-                  stroke='#77ec81'
-                  activeDot={false}
-                  type="monotone"
-                  dataKey="priceUsd"
-                  />
-                <XAxis
-                  tick={size.width < 550 ? false: true}
-                  dataKey='date'
-                  tickFormatter={formatXAxis}
-                  interval={size.width > 720 ? Math.floor(history.length/4) : Math.floor(history.length/2) }
-                  tickCount={2}
+        <>
+          {size.width && (
+            <LineChart
+              width={size.width}
+              height={size.height}
+              data={history}
+              margin={{ left: 10 }}
+            >
+              <Line
+                stroke='#77ec81'
+                activeDot={false}
+                type="monotone"
+                dataKey="priceUsd"
                 />
-                <YAxis />
-              </LineChart>
-            )}
-            <div className={styles.group}>
-              {intervals && intervals.map((item, index)=> (
-                <label
-                  key={item}
-                  className={classNames({
-                    [styles.group__label]: true,
-                    [styles.group__label_active]: dateInterval === item,
-                  })}
-                >
-                  <input
-                    type="radio"
-                    name='interval'
-                    value={item}
-                    checked={dateInterval === item}
-                    onChange={() => setDateInterval(item)}
-                  />
-                  {item}
-                </label>
-              ))}
-            </div>
-          </>
+              <XAxis
+                tick={size.width < 550 ? false: true}
+                dataKey='date'
+                tickFormatter={formatXAxis}
+                interval={size.width > 720 ? Math.floor(history.length/4) : Math.floor(history.length/2) }
+                tickCount={2}
+              />
+              <YAxis />
+            </LineChart>
+          )}
+          <div className={styles.group}>
+            {intervals.length > 1 && intervals.map((item, index)=> (
+              <label
+                key={item}
+                className={classNames({
+                  [styles.group__label]: true,
+                  [styles.group__label_active]: dateInterval === item,
+                })}
+              >
+                <input
+                  type="radio"
+                  name='interval'
+                  value={item}
+                  checked={dateInterval === item}
+                  onChange={() => setDateInterval(item)}
+                />
+                {item}
+              </label>
+            ))}
+          </div>
+        </>
+      )}
+      {history?.length === 0 && (
+        <div className={styles.warning}>
+          No data
+        </div>
       )}
   </div>
   )

@@ -44,6 +44,9 @@ const meta  = {
       table: {
         type: { summary: 'node' },
       },
+      control: {
+        type: 'object'
+      },
       description: 'Node inside a modal. Don\'t have a default value.'
     },
   },
@@ -62,7 +65,6 @@ const styles = {
     position: 'absolute',
     height:'inherit',
     width:'inherit',
-    margin: 20,
   } as React.CSSProperties,
 };
 

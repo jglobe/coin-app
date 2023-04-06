@@ -80,7 +80,7 @@ export function MainPage() {
             </>
           )}
         </div>
-        {!pending && (
+        {!pending && coins.data.length > 0 && (
           <Pagination
             prev={() => {
               searchParams.set('page', `${page - 1}`);
@@ -91,7 +91,7 @@ export function MainPage() {
               setSearchParams(searchParams);
             }}
             page={page}
-            length={coins.data.length}
+            disabledNext={coins.data.length < 10}
           />
         )}
       </div>

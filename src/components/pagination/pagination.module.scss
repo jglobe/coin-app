@@ -1,3 +1,5 @@
+@import '@/vars.module.scss';
+
 .pagination {
   height: 40px;
 
@@ -10,5 +12,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
+
+    color: $--font-color-primary;
   }
 }

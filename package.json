@@ -8,7 +8,8 @@
     "build": "tsc && vite build",
     "preview": "vite preview",
     "storybook": "storybook dev -p 6006",
-    "build-storybook": "storybook build"
+    "build-storybook": "storybook build",
+    "cy": "cypress open"
   },
   "dependencies": {
     "@juggle/resize-observer": "^3.4.0",
@@ -32,6 +33,7 @@
     "@types/react": "^18.0.28",
     "@types/react-dom": "^18.0.11",
     "@vitejs/plugin-react": "^3.1.0",
+    "cypress": "^12.9.0",
     "prop-types": "^15.8.1",
     "sass": "^1.60.0",
     "storybook": "^7.0.2",

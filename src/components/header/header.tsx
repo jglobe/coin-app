@@ -26,7 +26,10 @@ export function Header() {
   }
 
   return(
-    <header className={styles.header}>
+    <header
+      data-cypress='header'
+      className={styles.header}
+    >
       <div className={styles.popular}>
         <p className={styles.popular__title}>
           Popular coins:
@@ -47,6 +50,7 @@ export function Header() {
         {context.calculated && (
           <button
             type='button'
+            data-cypress='portfolio-button'
             onClick={() => openPortfolioModal()}
             className={styles.portfolio__button}
           >
@@ -73,7 +77,7 @@ export function Header() {
         >
           <div className={styles.modalPortfolio}>
             {!context.portfolio.length && (
-              <div>Empty! Buy some coins...</div>
+              <div data-cypress='warning'>Empty! Buy some coins...</div>
             )}
             {context.portfolio.length > 0 && context.portfolio.map((coin) => (
               <div key={coin.id}>

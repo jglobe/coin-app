@@ -54,6 +54,7 @@ export function Diagram({ history, dateInterval, setDateInterval, intervals }:Di
       <div
         className={styles.diagram}
         ref={elementRef}
+        data-cypress='diagram'
       >
       {history?.length > 0 && (
         <>
@@ -84,6 +85,7 @@ export function Diagram({ history, dateInterval, setDateInterval, intervals }:Di
             {intervals.length > 1 && intervals.map((item, index)=> (
               <label
                 key={item}
+                data-cypress='interval'
                 className={classNames({
                   [styles.group__label]: true,
                   [styles.group__label_active]: dateInterval === item,
@@ -103,7 +105,10 @@ export function Diagram({ history, dateInterval, setDateInterval, intervals }:Di
         </>
       )}
       {history?.length === 0 && (
-        <div className={styles.warning}>
+        <div
+          data-cypress='warning'
+          className={styles.warning}
+        >
           No data
         </div>
       )}

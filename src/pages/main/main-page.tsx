@@ -53,7 +53,10 @@ export function MainPage() {
 
   return(
       <div className={styles.list}>
-        <div className={styles.list__body}>
+        <div
+          className={styles.list__body}
+          data-cypress='coins-list-body'
+        >
           {pending && <Loader />}
           {!pending && (
             <Coins

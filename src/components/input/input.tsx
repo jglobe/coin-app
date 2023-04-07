@@ -9,6 +9,7 @@ export function Input(props:InputPropsType) {
   return(
     <input
       {...props}
+      data-cypress='input'
       className={classNames(styles.input, props.className)}
     />
   )

@@ -98,7 +98,7 @@ export function CoinPage() {
               </Fragment>
             )}
             {!coin?.data && (
-              <div>
+              <div data-cypress='warning'>
                 Is something wrong! Get back.
               </div>
             )}

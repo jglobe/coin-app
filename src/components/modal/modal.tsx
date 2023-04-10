@@ -14,8 +14,12 @@ export function Modal({ children, title = '', close, style }:ModalPropsType) {
       style={style}
     >
       <div className={styles.wrapper__inner}>
-        <div className={styles.modal}>
+        <div
+          className={styles.modal}
+          data-cypress='modal'
+        >
           <button
+            data-cypress='modal-close'
             type='button'
             onClick={() => close()}
             className={styles.modal__close}

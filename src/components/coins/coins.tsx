@@ -59,7 +59,7 @@ export function Coins({ coins } :CoinsType) {
   return(
     <>
       {coins === null && (
-        <div>
+        <div data-cypress='warning'>
           Is something wrong!
         </div>
       )}
@@ -67,6 +67,7 @@ export function Coins({ coins } :CoinsType) {
         <div
           key={coin.id}
           className={styles.listItem}
+          data-cypress='coins-list-item'
         >
           <Link
             to={coin.id}

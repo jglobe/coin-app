@@ -11,14 +11,20 @@ export interface PaginationPropsType {
 
 export function Pagination({ prev, next, page, disabledNext }: PaginationPropsType) {
   return(
-    <div className={styles.pagination}>
+    <div
+      className={styles.pagination}
+      data-cypress='pagination'
+    >
       <Button
         onClick={prev}
         disabled={page === 1}
         >
         Prev
       </Button>
-      <div className={styles.pagination__current}>
+      <div
+        className={styles.pagination__current}
+        data-cypress='pagination-current'
+      >
         {page}
       </div>
       <Button

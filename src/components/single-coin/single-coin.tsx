@@ -11,7 +11,10 @@ interface SingleCoinPropsType {
 
 export function SingleCoin({ coin }: SingleCoinPropsType) {
   return(
-    <div className={styles.coin}>
+    <div
+      className={styles.coin}
+      data-cypress='coin-full'
+    >
       <div className={styles.coin__prop}>
         Name:
         <span className={styles.coin__value}>

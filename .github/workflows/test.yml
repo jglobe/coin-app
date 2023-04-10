@@ -11,5 +11,7 @@ jobs:
       - name: Cypress run
         uses: cypress-io/github-action@v5
         with:
+          start: npm run dev
+          wait-on: 'http://localhost:5173'
           config: pageLoadTimeout=100000,baseUrl=http://localhost:5173
           spec: cypress/e2e/spec.cy.js

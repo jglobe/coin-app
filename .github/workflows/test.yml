@@ -1,5 +1,5 @@
 name: test
-on: [push, deployment, deployment_status]
+on: push
 jobs:
   cypress-run:
     runs-on: ubuntu-22.04
@@ -10,3 +10,6 @@ jobs:
       # and run all Cypress tests
       - name: Cypress run
         uses: cypress-io/github-action@v5
+        with:
+          config: pageLoadTimeout=100000,baseUrl=http://localhost:5173
+          spec: cypress/e2e/spec.cy.js

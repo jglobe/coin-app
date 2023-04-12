@@ -9,6 +9,7 @@ export function Button(props:ButtonPropsType) {
     <button
       {...props}
       data-cypress='button'
+      data-testid='button'
       className={classNames(styles.button, props.className)}
     />
   )

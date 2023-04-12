@@ -1,5 +1,3 @@
-/// <reference types="jest" />
-import { describe, expect, it, vi } from 'vitest'
 import { render, screen, fireEvent } from '@testing-library/react';
 
 import { Button } from './button'
@@ -24,7 +22,7 @@ describe('Components', () => {
       expect(button).toHaveTextContent('Text')
     });
     it('Button onClick', () => {
-      const handleClick = vi.fn()
+      const handleClick = jest.fn()
 
       render(
         <Button

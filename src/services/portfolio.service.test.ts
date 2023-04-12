@@ -1,6 +1,4 @@
 /// <reference types="jest" />
-import { describe, expect, it, afterEach, vi } from 'vitest';
-
 import { getPortfolio, PortfolioItemPropsType, TransactionType, addCoin, removeCoin } from '@/services/portfolio.service';
 
 describe('Portfolio actions', () => {
@@ -48,7 +46,7 @@ describe('Portfolio actions', () => {
   })
 
   it('Add coin', () => {
-    vi.spyOn(global.Math, 'floor').mockReturnValue(mockTransactionId)
+    jest.spyOn(global.Math, 'floor').mockReturnValue(mockTransactionId)
     const add = addCoin(mockCoinSaved.current, 1)
     const portfolio = getPortfolio()
 

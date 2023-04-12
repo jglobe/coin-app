@@ -1,11 +1,9 @@
-/// <reference types="jest" />
-import { describe, expect, it, vi } from 'vitest'
 import axios from 'axios'
 
 import { formatCurrency, formatPercent, calculatePortfolio } from './number';
 import * as portfolioService from '@/services/portfolio.service';
 
-vi.mock('axios');
+jest.mock('axios');
 
 describe('Numbers', () => {
   describe('Format currency', () => {

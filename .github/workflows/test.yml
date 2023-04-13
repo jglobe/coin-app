@@ -17,4 +17,5 @@ jobs:
           spec: cypress/e2e/spec.cy.ts
       - name: Jest/RTL
         uses: actions/setup-node@v2
-        run: npm run test
+        with:
+          run: npm run test

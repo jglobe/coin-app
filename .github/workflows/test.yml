@@ -16,5 +16,4 @@ jobs:
           wait-on: 'npx --yes wait-on --timeout 60000 tcp:5173'
           spec: cypress/e2e/spec.cy.ts
       - name: Jest/RTL
-        uses: actions/setup-node@v2
         run: npm test

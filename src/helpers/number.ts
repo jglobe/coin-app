@@ -74,3 +74,12 @@ export async function calculatePortfolio(portfolio:portfolioService.PortfolioIte
 
   return result;
 }
+
+export function formatXAxisDate (tickItem:string){
+  function isValidDate(d:Date|string|number) {
+    return d instanceof Date && isFinite(+d);
+  }
+  const date = new Date(tickItem);
+
+  return isValidDate(date) ? date.toLocaleString("ru-RU"): '';
+}

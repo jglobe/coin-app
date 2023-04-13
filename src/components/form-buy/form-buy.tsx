@@ -13,6 +13,7 @@ export function FormBuy(props: FormBuyPropsType) {
     <form
       {...props}
       data-cypress='form'
+      data-testid='form'
       onSubmit={props.onSubmit}
       className={classNames(styles.form, props.className)}
     >

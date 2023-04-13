@@ -3,6 +3,8 @@ import classNames from 'classnames';
 import { LineChart, Line, XAxis, YAxis } from 'recharts';
 import { ResizeObserver } from '@juggle/resize-observer';
 
+import { formatXAxisDate } from '@/helpers/number'
+
 import styles from './diagram.module.scss';
 
 export interface HistoryType {
@@ -45,16 +47,12 @@ export function Diagram({ history, dateInterval, setDateInterval, intervals }:Di
     };
   }, [])
 
-  const formatXAxis = (tickItem:string) => {
-    const date = new Date(tickItem)
-    return date.toLocaleString("ru-RU");
-  }
-
   return(
       <div
         className={styles.diagram}
         ref={elementRef}
         data-cypress='diagram'
+        data-testid='diagram'
       >
       {history?.length > 0 && (
         <>
@@ -74,7 +72,7 @@ export function Diagram({ history, dateInterval, setDateInterval, intervals }:Di
               <XAxis
                 tick={size.width < 550 ? false: true}
                 dataKey='date'
-                tickFormatter={formatXAxis}
+                tickFormatter={formatXAxisDate}
                 interval={size.width > 720 ? Math.floor(history.length/4) : Math.floor(history.length/2) }
                 tickCount={2}
               />
@@ -86,6 +84,7 @@ export function Diagram({ history, dateInterval, setDateInterval, intervals }:Di
               <label
                 key={item}
                 data-cypress='interval'
+                data-testid='interval'
                 className={classNames({
                   [styles.group__label]: true,
                   [styles.group__label_active]: dateInterval === item,
@@ -107,6 +106,7 @@ export function Diagram({ history, dateInterval, setDateInterval, intervals }:Di
       {history?.length === 0 && (
         <div
           data-cypress='warning'
+          data-testid='warning'
           className={styles.warning}
         >
           No data

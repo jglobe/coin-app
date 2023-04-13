@@ -14,6 +14,7 @@ export function Pagination({ prev, next, page, disabledNext }: PaginationPropsTy
     <div
       className={styles.pagination}
       data-cypress='pagination'
+      data-testid='pagination'
     >
       <Button
         onClick={prev}
@@ -24,6 +25,7 @@ export function Pagination({ prev, next, page, disabledNext }: PaginationPropsTy
       <div
         className={styles.pagination__current}
         data-cypress='pagination-current'
+        data-testid='pagination-current'
       >
         {page}
       </div>

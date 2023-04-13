@@ -1,7 +1,7 @@
 name: test
 on: push
 jobs:
-  cypress-run:
+  tests:
     runs-on: ubuntu-22.04
     steps:
       - name: Checkout
@@ -15,3 +15,5 @@ jobs:
           start: npm run dev
           wait-on: 'npx --yes wait-on --timeout 60000 tcp:5173'
           spec: cypress/e2e/spec.cy.ts
+      - name: Jest/RTL
+        run: npm test

@@ -17,9 +17,11 @@ export function Modal({ children, title = '', close, style }:ModalPropsType) {
         <div
           className={styles.modal}
           data-cypress='modal'
+          data-testid='modal'
         >
           <button
             data-cypress='modal-close'
+            data-testid='modal-close'
             type='button'
             onClick={() => close()}
             className={styles.modal__close}
@@ -27,7 +29,10 @@ export function Modal({ children, title = '', close, style }:ModalPropsType) {
             +
           </button>
           {title && (
-            <h3 className={styles.modal__title}>
+            <h3
+              data-testid='modal-title'
+              className={styles.modal__title}
+            >
               {title}
             </h3>
           )}

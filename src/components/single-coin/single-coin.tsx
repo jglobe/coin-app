@@ -14,6 +14,7 @@ export function SingleCoin({ coin }: SingleCoinPropsType) {
     <div
       className={styles.coin}
       data-cypress='coin-full'
+      data-testid='coin-full'
     >
       <div className={styles.coin__prop}>
         Name:

@@ -14,6 +14,7 @@ dist-ssr
 cypress/downloads
 cypress/screenshots
 cypress/fixtures
+coverage
 
 # Editor directories and files
 .vscode/*

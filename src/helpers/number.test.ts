@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-import { formatCurrency, formatPercent, calculatePortfolio } from './number';
+import { formatCurrency, formatPercent, calculatePortfolio, formatXAxisDate } from './number';
 import * as portfolioService from '@/services/portfolio.service';
 
 jest.mock('axios');
@@ -140,5 +140,14 @@ describe('Numbers', () => {
 
       expect(await calculatePortfolio(mockPortfolio)).toEqual(calculatedPortfolio)
     })
-  })
+  });
+
+  describe('Foramt diagram X Axis date', () => {
+    it('Date as prop', () => {
+      expect(formatXAxisDate("2022-04-07T00:00:00.000Z")).toEqual('07.04.2022, 03:00:00')
+    })
+    it('Ivalid date as prop', () => {
+      expect(formatXAxisDate('invalid')).toEqual('')
+    })
+  });
 })
